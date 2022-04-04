@@ -1,24 +1,30 @@
-import React, { useContext, useState } from 'react';
+import {createContext, useContext, useState, useEffect} from 'react';
+import {login, logout} from '../services/session-service';
 
-const AuthContext = React.createContext();
+const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+const AuthProvider = ({children}) => {
+  const [user, setUser] = useState(null);
 
-  const login = () => {
-    setIsAuthenticated(true);
+  const loginHandler = (credentials) => {
+    login(credentials)
+      .then(user => setUser(user))
+      .catch(error => console.log(error));
   };
 
-  const logout = () => {
-    setIsAuthenticated(false);
+  const logoutHandler = () => {
+    logout()
+      .then(() => setUser({}))
+      .catch(error => console.log(error));
   };
 
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated,
-        login,
-        logout,
+        user,
+        setUser,
+        login: loginHandler,
+        logout: logoutHandler,
       }}
     >
       {children}
@@ -26,8 +32,8 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-const useAuth = () => {
-  return context = useContext(AuthContext);
+function useAuth() {
+  return useContext(AuthContext);
 };
 
-export { AuthProvider, useAuth };
+export {AuthProvider, useAuth};

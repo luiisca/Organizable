@@ -8,7 +8,7 @@ export async function getUser() {
 }
 
 export async function createUser(newUser) {
-  const { token, ...user } = await apiFetch("signup", { body: newUser });
+  const { token, ...user } = await apiFetch("users", { body: newUser });
   sessionStorage.setItem(tokenKey, token);
   return user;
 }

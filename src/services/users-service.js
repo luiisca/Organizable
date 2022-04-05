@@ -16,14 +16,16 @@ export async function createUser(newUser) {
 }
 
 export async function updateUser(data) {
-  const {_token, ...user} = await apiFetch("profile", {
+  const {_token, ...user} = await apiFetch("users", {
     body: data,
     method: "PATCH",
   });
+
   return user;
 }
 
-export async function destroyUser(userId) {
-  await apiFetch(`users/${userId}`, {method: "DELETE"});
+export async function destroyUser() {
+  await apiFetch("users", {method: "DELETE"});
   localStorage.removeItem(tokenKey);
+  localStorage.removeItem(userKey);
 }

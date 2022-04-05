@@ -1,7 +1,8 @@
 import {createContext, useContext, useEffect, useReducer, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {userKey} from "../config";
 import {login, logout} from '../services/session-service';
-import {getUser} from "../services/users-service";
+import {createUser, getUser} from "../services/users-service";
 import globalReducer from "./global-reducer";
 
 const GlobalContext = createContext();
@@ -14,33 +15,45 @@ const GlobalProvider = ({children}) => {
     board: null,
     setBoard: () => {},
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     // we wanna make sure that the user has a valid token
     const user = JSON.parse(localStorage.getItem(userKey));
 
     if (user) {
-      getUser().
-        then(() => {
+      getUser()
+        .then(() => {
           dispatch({type: 'LOGIN', user})
-        }).
-        catch(() => dispatch({type: 'LOGOUT'}));
+        })
+        .catch(error => console.log(error));
     }
   }, []);
 
   const loginHandler = (credentials) => {
     login(credentials)
       .then(user => {
-        console.log(user, 'loginhandler');
-        dispatch({type: 'LOGIN', user});
-        localStorage.setItem(userKey, JSON.stringify(user));
+        dispatch({type: 'LOGIN', user})
+        navigate('/');
+      })
+      .catch(error => console.log(error));
+  };
+
+  const signupHandler = (credentials) => {
+    createUser(credentials)
+      .then(user => {
+        dispatch({type: 'LOGIN', user})
+        navigate('/');
       })
       .catch(error => console.log(error));
   };
 
   const logoutHandler = () => {
     logout()
-      .then(() => dispatch({type: 'LOGOUT'}))
+      .then(() => {
+        dispatch({type: 'LOGOUT'});
+        navigate('/');
+      })
       .catch(error => console.log(error));
   };
 
@@ -53,6 +66,7 @@ const GlobalProvider = ({children}) => {
       value={{
         user: globalState.user,
         login: loginHandler,
+        signup: signupHandler,
         logout: logoutHandler,
         board: globalState.board,
         setBoard: setBoardHandler,

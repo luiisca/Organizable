@@ -7,7 +7,9 @@ export default async function apiFetch(
   const token = localStorage.getItem(tokenKey);
   const userId = JSON.parse(localStorage.getItem(userKey))?.id;
 
-  endpoint = userId ? `${endpoint}/${userId}` : endpoint;
+  if (userId && !body || method === "DELETE") {
+    endpoint = `users/${userId}`;
+  }
 
   if (token) {
     headers = {

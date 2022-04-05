@@ -8,7 +8,7 @@ const SignupForm = () => {
   const {handleSubmit, watch, register, formState: {errors}} = useForm(
 
   );
-  const {setUser} = useGlobalContext();
+  const {signup} = useGlobalContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const inputs = watch([
@@ -27,17 +27,9 @@ const SignupForm = () => {
     },
   );
 
-  console.log(inputs);
-
   const submitHandler = async (data) => {
     setIsLoading(true);
-    try {
-      const user = await createUser(data);
-      setUser(user);
-    } catch (error) {
-      console.log(error);
-    }
-    console.log(data);
+    signup(data);
   };
 
   return (

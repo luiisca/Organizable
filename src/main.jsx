@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom'
 import {BrowserRouter} from 'react-router-dom'
 
 import App from './App'
-import {AuthProvider} from './context/auth-context'
+import {GlobalProvider} from './context/GlobalProvider'
 
 import './index.css'
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
+      <GlobalProvider>
         <App />
-      </AuthProvider>
+      </GlobalProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

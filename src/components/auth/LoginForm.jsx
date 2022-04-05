@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {useAuth} from '../../context/auth-context';
+import {useGlobalContext} from '../../context/GlobalProvider';
 import {useForm} from 'react-hook-form';
 import Input from './Input';
 
@@ -7,7 +7,7 @@ const LoginForm = () => {
   const {handleSubmit, watch, register, formState: {errors}} = useForm();
   const userName = watch('username', '');
   const password = watch('password', '');
-  const {login} = useAuth();
+  const {login} = useGlobalContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const submitHandler = (data, e) => {

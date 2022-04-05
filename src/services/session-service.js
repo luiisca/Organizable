@@ -1,4 +1,4 @@
-import {tokenKey} from "../config";
+import {tokenKey, userKey} from "../config";
 import apiFetch from "./api-fetch";
 
 export async function login(credentials) {
@@ -6,11 +6,12 @@ export async function login(credentials) {
     body: credentials,
   });
 
-  sessionStorage.setItem(tokenKey, token);
+  localStorage.setItem(tokenKey, token);
   return user;
 }
 
 export async function logout() {
   await apiFetch("logout", {method: "DELETE"});
-  sessionStorage.removeItem(tokenKey);
+  localStorage.removeItem(tokenKey);
+  localStorage.removeItem(userKey);
 }

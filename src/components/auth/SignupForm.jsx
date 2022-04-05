@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {useAuth} from '../../context/auth-context';
+import {useGlobalContext} from '../../context/GlobalProvider';
 import {createUser} from '../../services/users-service';
 import {useForm} from 'react-hook-form';
 import Input from './Input';
@@ -8,7 +8,7 @@ const SignupForm = () => {
   const {handleSubmit, watch, register, formState: {errors}} = useForm(
 
   );
-  const {setUser} = useAuth();
+  const {setUser} = useGlobalContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const inputs = watch([

@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {useAuth} from './context/auth-context';
+import {useGlobalContext} from './context/GlobalProvider';
 
 const AuthenticatedApp = () => {
-  const {user} = useAuth();
+  const {user} = useGlobalContext();
   return (
     <div>
       <p>

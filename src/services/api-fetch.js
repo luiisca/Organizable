@@ -1,10 +1,13 @@
-import {tokenKey, BASE_URI} from "../config.js";
+import {tokenKey, BASE_URI, userKey} from "../config.js";
 
 export default async function apiFetch(
   endpoint,
   {method, headers, body} = {}
 ) {
-  const token = sessionStorage.getItem(tokenKey);
+  const token = localStorage.getItem(tokenKey);
+  const userId = JSON.parse(localStorage.getItem(userKey))?.id;
+
+  endpoint = userId ? `${endpoint}/${userId}` : endpoint;
 
   if (token) {
     headers = {

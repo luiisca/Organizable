@@ -5,9 +5,7 @@ const AuthenticatedApp = () => {
   const {user} = useGlobalContext();
   return (
     <div>
-      <p>
-       AuthenticatedApp
-      </p>
+
     </div>
   );
 };

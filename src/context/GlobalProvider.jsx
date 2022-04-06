@@ -12,7 +12,7 @@ const GlobalProvider = ({children}) => {
     user: null,
     login: () => {},
     logout: () => {},
-    board: null,
+    boards: null,
     setBoard: () => {},
   });
   const navigate = useNavigate();
@@ -68,8 +68,8 @@ const GlobalProvider = ({children}) => {
         login: loginHandler,
         signup: signupHandler,
         logout: logoutHandler,
-        board: globalState.board,
-        setBoard: setBoardHandler,
+        boards: globalState.boards,
+        setBoards: setBoardHandler,
       }}
     >
       {children}

@@ -1,16 +1,19 @@
-import { tokenKey } from "../config";
+import {tokenKey, userKey} from "../config";
 import apiFetch from "./api-fetch";
 
 export async function login(credentials) {
-  const { token, ...user } = await apiFetch("login", {
+  const {token, ...user} = await apiFetch("login", {
     body: credentials,
   });
 
-  sessionStorage.setItem(tokenKey, token);
+  localStorage.setItem(tokenKey, token);
+  localStorage.setItem(userKey, JSON.stringify(user));
+
   return user;
 }
 
 export async function logout() {
-  await apiFetch("logout", { method: "DELETE" });
-  sessionStorage.removeItem(tokenKey);
+  await apiFetch("logout", {method: "DELETE"});
+  localStorage.removeItem(tokenKey);
+  localStorage.removeItem(userKey);
 }

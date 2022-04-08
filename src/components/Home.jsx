@@ -1,13 +1,14 @@
 import {useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import useFetchGet from '../hooks/useFetchGet';
 import {getBoards} from '../services/boards-service';
 
 export default function Home() {
   // return <h1>Hello Home!</h1>
   // console.log(useFetchGet);
+  // TODO: memoize this (currently executing 3 times)
   const {data: boards} = useFetchGet({action: getBoards});
-  console.log(boards);
+  // console.log('2)', boards);
 
   return (
     <div className="Home">
@@ -16,13 +17,15 @@ export default function Home() {
         This is the home page.
       </p>
       <div>
-        <h1>Authenticated App</h1>
-        {boards.map(board => (
-          <div key={board.id} onClick={() => showLists(board.id)}>
-            <h2>{board.name}</h2>
-            <p>{board.closed ? 'Closed' : 'Open'}</p>
-            <p>{board.color}</p>
-            <p>{board.starred ? 'Starred' : 'Not Starred'}</p>
+        {/*{console.log('3) hello home component')}*/}
+        {boards?.map(board => (
+          <div key={board.id}>
+            <Link to={`/boards/${board.id}`}>
+              <h2>{board.name}</h2>
+              <p>{board.closed ? 'Closed' : 'Open'}</p>
+              <p>{board.color}</p>
+              <p>{board.starred ? 'Starred' : 'Not Starred'}</p>
+            </Link>
           </div>
         ))}
       </div>

@@ -29,7 +29,7 @@ const GlobalProvider = ({children}) => {
         try {
           await getUser();
           dispatch({type: 'LOGIN', user});
-          console.log(globalState.user, 'if inside fethUser inside useEffect')
+          // console.log('if inside fethUser inside useEffect')
           const boards = await getBoards();
           dispatch({type: 'SET_BOARDS', boards});
 
@@ -41,7 +41,7 @@ const GlobalProvider = ({children}) => {
       }
     };
     fetchUser().catch(console.log);
-    console.log(globalState.user, 'after if statement inside useEffect');
+    // console.log('after if statement inside useEffect');
   }, []);
 
   const loginHandler = (credentials) => {

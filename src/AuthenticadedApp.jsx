@@ -13,10 +13,7 @@ const AuthenticatedApp = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/boards" element={<Home />} />
-      <Route path="/boards/:boardsId" element={
-        <BoardProvider>
-          <Board />
-        </BoardProvider>} />
+      <Route path="/boards/:id" element={<BoardProvider><Board /></BoardProvider>} />
     </Routes>
   );
 };

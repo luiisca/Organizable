@@ -1,25 +1,15 @@
 import {useContext, createContext, useState, useEffect} from 'react';
 import apiFetch from '../services/api-fetch';
 import {showBoard} from '../services/boards-service';
-const BoardContext = createContext([1, 2, 3]);
+const BoardContext = createContext();
 
-const themes = {
-  light: {
-    foreground: "red",
-    background: "#eeeeee"
-  },
-  dark: {
-    foreground: "blue",
-    background: "#222222"
-  }
-};
-const BoardProvider = () => {
+const BoardProvider = ({children}) => {
   const [board, setBoard] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const getBoard = async (boardId) => {
-    setLoading(true);
+    // setLoading(true);
     try {
       const board = await showBoard(boardId);
       setBoard(board);
@@ -30,13 +20,12 @@ const BoardProvider = () => {
 
   return (
     <BoardContext.Provider
-      // value={{
-      //   board,
-      //   loading,
-      //   error,
-      //   getBoard,
-      // }}
-      value={themes.dark}
+      value={{
+        board,
+        loading,
+        error,
+        getBoard,
+      }}
     >
       {children}
     </BoardContext.Provider>

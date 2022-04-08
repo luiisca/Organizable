@@ -12,22 +12,17 @@ const Board = () => {
   }, [id]);
 
   return (
-    <>
-      {board ?
+    board ?
+      <div>
         <div>
-          <h1>hello board</h1>
-          <div>
-            <h1>{board.name}</h1>
-            <p>{board.starred ? 'Starred' : ''}</p>
-          </div>
-          <div>
-            {board.lists.map((list) => {
-              <List key={list.id} list={list} />;
-            })}
-          </div>
-        </div> :
-        <h1>Loading...</h1>}
-    </>
+          <h1>hello {board.name}</h1>
+          <p>{board.starred ? 'Starred' : ''}</p>
+        </div>
+        <div>
+          {board.lists.map(list => <List key={list.id} list={list} />)}
+        </div>
+      </div> :
+      <h1>Loading...</h1>
   );
 };
 

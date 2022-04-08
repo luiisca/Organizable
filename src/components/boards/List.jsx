@@ -8,13 +8,11 @@ const List = ({list}) => {
         <button className="btn btn-danger">Delete</button>
       </div>
       <div className="list-cards">
-        {list.cards.map(card => (
-          <Card key={card.id} card={card} />
-        ))}
+        {list.cards.map(card => <Card key={card.id} card={card} />)}
       </div>
-      <div className="list-add-card">
+      {/*<div className="list-add-card">
         <AddCard listId={list.id} />
-      </div>
+      </div>*/}
     </div>
   );
 }

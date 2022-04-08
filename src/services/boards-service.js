@@ -1,7 +1,7 @@
 import apiFetch from "./api-fetch";
 
-export const indexBoards = () => {
- return apiFetch("boards");
+export const getBoards = () => {
+  return apiFetch("boards");
 }
 
 export const showBoard = (id) => {

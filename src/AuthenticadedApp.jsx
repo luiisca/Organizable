@@ -1,25 +1,23 @@
 import React, {useState, useEffect} from 'react';
+import {Route, Routes} from 'react-router-dom';
 import {useGlobalContext} from './context/GlobalProvider';
+import BoardProvider from "./context/BoardProvider";
+
+import Home from './components/Home';
+import Board from './pages/Board';
 
 const AuthenticatedApp = () => {
-  const {user, boards} = useGlobalContext();
-  const showLists = (boardId, boardName) => {
-    getLists(boardId);
-    navigate(`/${boardName}/lists`);
-  }
+  console.log('AuthenticatedApp');
 
   return (
-    <div>
-      <h1>Authenticated App</h1>
-      {boards.map(board => (
-        <div key={board.id} onClick={() => showLists(board.id, board.name)}>
-          <h2>{board.name}</h2>
-          <p>{board.closed ? 'Closed' : 'Open'}</p>
-          <p>{board.color}</p>
-          <p>{board.starred ? 'Starred' : 'Not Starred'}</p>
-        </div>
-      ))}
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/boards" element={<Home />} />
+      <Route path="/boards/:boardsId" element={
+        <BoardProvider>
+          <Board />
+        </BoardProvider>} />
+    </Routes>
   );
 };
 

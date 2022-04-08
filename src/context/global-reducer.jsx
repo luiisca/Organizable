@@ -4,8 +4,8 @@ export default (state, action) => {
        return {...state, user: action.user};
     case 'LOGOUT':
       return {...state, user: null};
-    case 'SET_BOARD':
-      return {...state, board: action.board};
+    case 'SET_BOARDS':
+      return {...state, boards: action.boards};
     default:
       return state;
   };

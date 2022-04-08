@@ -14,7 +14,6 @@ const LoginForm = () => {
     e.preventDefault();
     setIsLoading(true);
     login(data);
-    console.log(data);
   };
 
   return (

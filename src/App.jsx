@@ -7,11 +7,14 @@ import AuthenticatedApp from './AuthenticadedApp'
 import {useGlobalContext} from './context/GlobalProvider'
 
 import './App.css'
+import Board from './pages/Board'
 
 function App() {
   const {user} = useGlobalContext();
 
   return (
+    // since useEffect executes after render, I could instead directly move to AuthenticatedApp and from there use useEffect to determine wether the user should stay there or not, or maybe a floating login.
+    // I guess that'd be more pleasant to the user.
     user ? <AuthenticatedApp /> : <UnauthenticatedApp />
   )
 }

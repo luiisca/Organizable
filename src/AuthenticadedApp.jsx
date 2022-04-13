@@ -3,7 +3,7 @@ import {Route, Routes} from 'react-router-dom';
 import {useGlobalContext} from './context/GlobalProvider';
 import BoardProvider from "./context/BoardProvider";
 
-import Home from './components/Home';
+import Home from './pages/Home';
 import Board from './pages/Board';
 
 const AuthenticatedApp = () => {

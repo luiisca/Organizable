@@ -1,4 +1,4 @@
-import {createContext, useContext, useEffect, useReducer, useState} from "react";
+import {createContext, Fragment, useContext, useEffect, useReducer, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {userKey} from "../config";
 import {getBoards} from "../services/boards-service";
@@ -21,27 +21,29 @@ const GlobalProvider = ({children}) => {
   const [isFetched, setIsFetched] = useState(false);
 
   useEffect(() => {
-    // we wanna make sure that the user has a valid token
+    console.log('inside useEffect gp');
+    // we wanna make sure the user has a valid token
     const user = JSON.parse(localStorage.getItem(userKey));
+    console.log(user);
 
     const fetchUser = async () => {
-      if (user) {
-        try {
-          await getUser();
-          dispatch({type: 'LOGIN', user});
-          // console.log('if inside fethUser inside useEffect')
-          const boards = await getBoards();
-          dispatch({type: 'SET_BOARDS', boards});
+      try {
+        await getUser();
+        dispatch({type: 'LOGIN', user});
+        // console.log('if inside fethUser inside useEffect')
+        const boards = await getBoards();
+        dispatch({type: 'SET_BOARDS', boards});
 
-          navigate('/boards');
-          setIsFetched(true);
-        } catch (e) {
-          console.log(e);
-        }
+        navigate('/boards', {replace: true});
+        setIsFetched(true);
+        return;
+      } catch {
+        setIsFetched(true);
+        navigate('/');
+        return;
       }
     };
-    fetchUser().catch(console.log);
-    // console.log('after if statement inside useEffect');
+    fetchUser();
   }, []);
 
   const loginHandler = (credentials) => {
@@ -87,7 +89,9 @@ const GlobalProvider = ({children}) => {
       }}
     >
       {/* I feel like it could even render a loading screen here */}
-      {isFetched ? children : null}
+      <Fragment>
+        {isFetched ? children : <p>Loading...</p>}
+      </Fragment>
     </GlobalContext.Provider>
   );
 };

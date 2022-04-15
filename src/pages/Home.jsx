@@ -4,11 +4,8 @@ import useFetchGet from '../hooks/useFetchGet';
 import {getBoards} from '../services/boards-service';
 
 export default function Home() {
-  // return <h1>Hello Home!</h1>
-  // console.log(useFetchGet);
   // TODO: memoize this (currently executing 3 times)
   const {data: boards} = useFetchGet({action: getBoards});
-  // console.log('2)', boards);
 
   return (
     <div className="Home">
@@ -17,7 +14,6 @@ export default function Home() {
         This is the home page.
       </p>
       <div>
-        {/*{console.log('3) hello home component')}*/}
         {boards?.map(board => (
           <div key={board.id}>
             <Link to={`/boards/${board.id}`}>

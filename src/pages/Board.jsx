@@ -1,33 +1,119 @@
-import {useBoard} from '../context/BoardProvider';
-import List from '../components/boards/List';
 import {useParams} from 'react-router-dom';
 import {useEffect} from 'react';
+import styled from 'styled-components';
+import {DragDropContext, Droppable} from 'react-beautiful-dnd';
+
+import {useBoardContext} from '../context/BoardProvider';
+
+import List from '../components/boards/List';
+
+const BoardContainer = styled.div`
+  display: flex;
+  height: 100%;
+`;
 
 const Board = () => {
   const {id} = useParams();
-  const {board, setBoard, getBoard} = useBoard();
-  console.log(board);
+  const {board, setBoard, getBoard} = useBoardContext();
+
+  const onDragEnd = (result) => {
+    console.log(result);
+    const {destination, source, draggableId, type} = result;
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId == source.droppableId &&
+      destination.index == source.index
+    ) {
+      return;
+    }
+
+    if (type == 'list') {
+      let newListOrder = [...board.listOrder];
+      newListOrder.splice(source.index, 1);
+      newListOrder.splice(destination.index, 0, draggableId);
+      setBoard({...board, listOrder: newListOrder});
+      return;
+    };
+
+    const startList = board.lists[source.droppableId];
+    const endList = board.lists[destination.droppableId];
+    const startCardOrder = startList.cardOrder;
+    const endCardOrder = endList.cardOrder;
+
+    if (destination.droppableId == source.droppableId) {
+      startCardOrder.splice(source.index, 1);
+      startCardOrder.splice(destination.index, 0, draggableId);
+      setBoard({
+        ...board,
+        lists: {
+          ...board.lists,
+          [source.droppableId]: {
+            ...startList,
+            cardOrder: startCardOrder,
+          },
+        },
+      });
+      return;
+    };
+
+    startCardOrder.splice(source.index, 1);
+    endCardOrder.splice(destination.index, 0, draggableId);
+    setBoard({
+      ...board,
+      lists: {
+        ...board.lists,
+        [source.droppableId]: {
+          ...startList,
+          cardOrder: startCardOrder,
+        },
+        [destination.droppableId]: {
+          ...endList,
+          cardOrder: endCardOrder,
+        }
+      }
+    })
+  };
+
   useEffect(() => {
     getBoard(id);
   }, [id]);
 
   return (
-    <>
-      {board ?
+    board ?
+      <div>
         <div>
-          <h1>hello board</h1>
-          <div>
-            <h1>{board.name}</h1>
-            <p>{board.starred ? 'Starred' : ''}</p>
-          </div>
-          <div>
-            {board.lists.map((list) => {
-              <List key={list.id} list={list} />;
-            })}
-          </div>
-        </div> :
-        <h1>Loading...</h1>}
-    </>
+          <h1>Hello {board.name}</h1>
+          <h2>{board.starred ? 'Starred' : ''}</h2>
+        </div>
+
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable
+            droppableId='all-lists'
+            direction='horizontal'
+            type='list'>
+            {(provided) => (
+              <BoardContainer
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {board.listOrder.map((listId, index) => (
+                  <List
+                    key={listId}
+                    list={board.lists[listId]}
+                    board={board}
+                    index={index} />
+                ))}
+                {provided.placeholder}
+              </BoardContainer>
+            )}
+          </Droppable>
+        </DragDropContext>
+
+      </div> :
+      <h1>Loading...</h1>
   );
 };
 

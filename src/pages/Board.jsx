@@ -1,11 +1,12 @@
 import {useParams} from 'react-router-dom';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {DragDropContext, Droppable} from 'react-beautiful-dnd';
 
 import {useBoardContext} from '../context/BoardProvider';
 
 import List from '../components/boards/List';
+import AddNewList from '../components/forms/AddNewList';
 
 const BoardContainer = styled.div`
   display: flex;
@@ -13,6 +14,7 @@ const BoardContainer = styled.div`
 `;
 
 const Board = () => {
+  const [isAddingList, setIsAddingList] = useState(false);
   const {id} = useParams();
   const {board, setBoard, getBoard} = useBoardContext();
 
@@ -106,7 +108,20 @@ const Board = () => {
                     board={board}
                     index={index} />
                 ))}
+
                 {provided.placeholder}
+
+                {isAddingList ? (
+                  <AddNewList
+                    board={board}
+                    setBoard={setBoard}
+                    boardId={id}
+                    setIsAddingList={setIsAddingList} />
+                ) : (
+                  <button
+                    onClick={() => setIsAddingList(true)}
+                  >Add new list</button>
+                )}
               </BoardContainer>
             )}
           </Droppable>

@@ -1,15 +1,15 @@
 import apiFetch from "./api-fetch";
 
-export const createList = (list, boardId) => {
+export const createList = (details, boardId) => {
   return apiFetch(`boards/${boardId}/lists`, {
-    body: JSON.stringify(list),
+    body: details,
   });
 };
 
 export const updateList = (list, boardId) => {
   return apiFetch(`boards/${boardId}/lists/${list.id}`, {
     method: "PATCH",
-    body: JSON.stringify({name: list.name}),
+    body: {name: list.name},
   });
 };
 

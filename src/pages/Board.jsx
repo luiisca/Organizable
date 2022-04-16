@@ -112,7 +112,11 @@ const Board = () => {
                 {provided.placeholder}
 
                 {isAddingList ? (
-                  <AddNewList setIsAddingList={setIsAddingList} />
+                  <AddNewList
+                    board={board}
+                    setBoard={setBoard}
+                    boardId={id}
+                    setIsAddingList={setIsAddingList} />
                 ) : (
                   <button
                     onClick={() => setIsAddingList(true)}

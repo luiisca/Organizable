@@ -61,7 +61,7 @@ const BoardProvider = ({children}) => {
       // listOrder: [list-1, list-2]
       //}
       //
-      console.log(newBoard);
+      // console.log(newBoard);
       setBoard(newBoard);
     } catch (error) {
       setError(error);

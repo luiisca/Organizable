@@ -12,8 +12,8 @@ import BoardProvider from './context/BoardProvider'
 
 function App() {
   const {user} = useGlobalContext();
-  console.log('app loading first?');
-  console.log(user)
+  // console.log('app loading first?');
+  // console.log(user)
 
   return (
     // since useEffect executes after render, I could instead directly move to AuthenticatedApp and from there use useEffect to determine wether the user should stay there or not, or maybe a floating login.

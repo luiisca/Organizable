@@ -1,8 +1,8 @@
 import apiFetch from "./api-fetch";
 
-export const createCard = (listId, card) => {
+export const createCard = (listId, details) => {
   return apiFetch(`lists/${listId}/cards`, {
-    body: JSON.stringify(card),
+    body: details,
   });
 };
 

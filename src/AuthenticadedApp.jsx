@@ -7,7 +7,7 @@ import Home from './pages/Home';
 import Board from './pages/Board';
 
 const AuthenticatedApp = () => {
-  console.log('AuthenticatedApp');
+  // console.log('AuthenticatedApp');
 
   return (
     <Routes>

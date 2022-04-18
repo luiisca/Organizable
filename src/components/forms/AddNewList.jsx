@@ -1,4 +1,3 @@
-import {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {createList} from '../../services/lists-service';
 
@@ -25,12 +24,12 @@ const AddNewList = ({board, setBoard, boardId, setIsAddingList}) => {
       });
       setIsAddingList(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onAddList)}>
+    <form className='add-list-form' onSubmit={handleSubmit(onAddList)}>
       <input
         {...register('listName')}
         name="listName"

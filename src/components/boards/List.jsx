@@ -1,7 +1,11 @@
+import {useState} from 'react';
 import {Droppable, Draggable} from 'react-beautiful-dnd';
 import styled from 'styled-components';
 
+import useOffSetState from '../../hooks/useOffSetState';
+
 import Card from './Card';
+import AddNewCard from '../../components/forms/AddNewCard';
 
 const Container = styled.div`
   background: #AAA;
@@ -25,6 +29,9 @@ const CardsContainer = styled.div`
 `;
 
 const List = ({list, board, index}) => {
+  const [addingCard, setAddingCard] = useState(false);
+  useOffSetState('.add-card-form', addingCard, setAddingCard);
+
   return (
     <Draggable
       draggableId={`list-${list.listId}`}
@@ -43,23 +50,34 @@ const List = ({list, board, index}) => {
           <Droppable
             droppableId={`list-${list.listId}`}>
             {(provided) => (
-              <CardsContainer
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {list.cardOrder.map((cardId, index) => (
-                  <Card
-                    key={cardId}
-                    card={board.cards[cardId]}
-                    index={index} />
-                ))}
-                {provided.placeholder}
-              </CardsContainer>
+              <>
+                <CardsContainer
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {list.cardOrder.map((cardId, index) => (
+                    <Card
+                      key={cardId}
+                      card={board.cards[cardId]}
+                      index={index} />
+                  ))}
+                  {addingCard && (
+                    <AddNewCard
+                      listId={list.listId}
+                      setAddingCard={setAddingCard} />
+                  )}
+
+                  {provided.placeholder}
+                </CardsContainer>
+                {!addingCard ? (
+                  <button onClick={() => {
+                    console.log('button clicked')
+                    setAddingCard(true)
+                  }}>Add card</button>
+                ) : ''}
+              </>
             )}
           </Droppable>
-          {/*<div className="list-add-card">
-        <AddCard listId={list.id} />
-        </div>*/}
         </Container>
       )}
     </Draggable>

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {DragDropContext, Droppable} from 'react-beautiful-dnd';
 
 import {useBoardContext} from '../context/BoardProvider';
+import useOffSetState from '../hooks/useOffSetState';
 
 import List from '../components/boards/List';
 import AddNewList from '../components/forms/AddNewList';
@@ -17,9 +18,10 @@ const Board = () => {
   const [isAddingList, setIsAddingList] = useState(false);
   const {id} = useParams();
   const {board, setBoard, getBoard} = useBoardContext();
+  useOffSetState('.add-list-form', isAddingList, setIsAddingList);
 
   const onDragEnd = (result) => {
-    console.log(result);
+    // console.log(result);
     const {destination, source, draggableId, type} = result;
     if (!destination) {
       return;

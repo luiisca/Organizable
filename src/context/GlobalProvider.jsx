@@ -21,10 +21,10 @@ const GlobalProvider = ({children}) => {
   const [isFetched, setIsFetched] = useState(false);
 
   useEffect(() => {
-    console.log('inside useEffect gp');
+    // console.log('inside useEffect gp');
     // we wanna make sure the user has a valid token
     const user = JSON.parse(localStorage.getItem(userKey));
-    console.log(user);
+    // console.log(user);
 
     const fetchUser = async () => {
       try {

@@ -10,7 +10,7 @@ const UnauthenticatedApp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [crrPage, setCrrPage] = useState('submit');
   const navigate = useNavigate();
-  console.log('UnauthenticatedApp');
+  // console.log('UnauthenticatedApp');
   return (
     <div>
       <Routes>

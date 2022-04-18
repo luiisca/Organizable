@@ -1,17 +1,21 @@
-import {useEffect} from 'react';
+import {useEffect, useCallback} from 'react';
 
 const useOffSetState = (className, state, setState) => {
-  const handleClick = (e) => {
+  const handleClick = useCallback((e) => {
     const element = document.querySelector(className);
 
     if (!element.contains(e.target)) {
-      setState(!state);
-      document.removeEventListener('click', handleClick);
+      setState(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    if (state) document.addEventListener('click', handleClick);
+    if (state) {
+      document.addEventListener('click', handleClick);
+    } else {
+      console.log('removing event listener');
+      document.removeEventListener('click', handleClick);
+    }
   }, [state]);
 }
 
